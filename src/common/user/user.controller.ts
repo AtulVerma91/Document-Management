@@ -33,7 +33,7 @@ export class UserController {
     @UseGuards(RolesGuard)
     @SetMetadata('roles', ['admin'])
     async updateUser(@Param('id') id: number, @Body('role') role: UserRole, @Request() req) {
-        const userId = req.user?.id;
+        const userId = req.user?.id; 
         return this.userService.updateUser(id, role, userId);
     }
 

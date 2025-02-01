@@ -1,19 +1,19 @@
 import { DataSourceOptions } from 'typeorm';
-import { ConfigService } from './config.service';
+import { config, ConfigService } from './config.service';
 
 export const ORM_CONFIGS = (configService: ConfigService): DataSourceOptions => ({
     type: 'postgres',
-    host: configService.postgresConfig.host,
-    port: configService.postgresConfig.port,
-    username: configService.postgresConfig.username,
-    password: configService.postgresConfig.password,
-    database: configService.postgresConfig.database,
+    host: config().postgres.host || 'localhost',
+    port: config().postgres.port || 5432,
+    username: config().postgres.username || 'admin',
+    password: config().postgres.password || 'adminpassword',
+    database: config().postgres.database || 'app_db',
     entities: [
         __dirname + '/../**/*.entity{.ts,.js}',
         __dirname + '/../entity/*.entity{.ts,.js}',
     ],
-    logging: true,
-    synchronize: false,
+    logging: false,
+    synchronize: true,
     migrations: ['dist/migrations/*.js'],
     extra: {
         application_name: 'oms_connection',

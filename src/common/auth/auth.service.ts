@@ -1,12 +1,12 @@
-import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Logger, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as argon2 from 'argon2';
-import { User } from '../entity/User.entity';
+import { User, UserRole } from '../entity/User.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoginDto } from '../dto/login.dto';
-
+import { BlacklistedToken } from '../entity/blacklisted-token.entity';
+import * as crypto from 'crypto';
 
 
 @Injectable()
@@ -16,36 +16,60 @@ export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
         @InjectRepository(User) private readonly userRepository: Repository<User>,
+        @InjectRepository(BlacklistedToken)
+        private readonly blacklistRepository: Repository<BlacklistedToken>,
     ) { }
 
-    async validatePassword(password: string, hashedPassword: string): Promise<boolean> {
-        return argon2.verify(hashedPassword, password);
-    }
 
-    async register(createUserDto: CreateUserDto): Promise<{ access_token: string }> {
-        const existingUser = await this.userRepository.findOne({ email: createUserDto.email });
-        if (existingUser) {
-            throw new UnauthorizedException('User already exists');
-        }
+    async register(registerUserDto: CreateUserDto) {
+        const { email, password, role } = registerUserDto;
 
-        const hashedPassword = await argon2.hash(createUserDto.password);
+        const existingUser = await this.userRepository.findOne({
+            where: { email },
+        });
+        if (existingUser) throw new ConflictException('Username already taken');
 
-        const user = new User();
-        user.email = createUserDto.email;
-        user.password = hashedPassword;
 
+        const user = this.userRepository.create({
+            email,
+            password,
+            role: role as UserRole,
+        });
         await this.userRepository.save(user);
-        return this.generateToken(user);
+        return {
+            code: 200,
+            message: 'user created successfully',
+            access_token: await this.generateToken(user)
+        };
     }
+
 
     async login(loginDto: LoginDto): Promise<{ access_token: string }> {
-        const user = await this.userRepository.findOne({ email: loginDto.email });
-        if (!user || !(await this.validatePassword(loginDto.password, user.password))) {
+        const user = await this.userRepository.findOne({
+            where: { email: loginDto.email },
+        });
+        const hashedPassword = crypto.createHash('md5').update(loginDto.password).digest('hex').toString();
+        if (!user) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        this.logger.log(`loginDto.password (plain): ${loginDto.password}`);
+        this.logger.log(`user.password (hashed from DB): ${user.password}`);
+
+       
+
+        const passwordMatch = (hashedPassword === user.password);
+        this.logger.log(`Password match result: ${passwordMatch}`);
+
+        if (!passwordMatch) {
             throw new UnauthorizedException('Invalid credentials');
         }
 
         return this.generateToken(user);
     }
+
+
+
 
     async generateToken(user: User): Promise<{ access_token: string }> {
         const payload = { email: user.email, role: user.role }; 
@@ -53,8 +77,29 @@ export class AuthService {
         return { access_token: this.jwtService.sign(payload) };
     }
 
-    async logout(): Promise<{ message: string }> {
+    async logout(token: string): Promise<{ message: string }> {
         this.logger.log('Logging out...');
+        const decodedToken = this.jwtService.decode(token) as any;
+        if (!decodedToken) {
+            throw new UnauthorizedException('Invalid token');
+        }
+
+        const expiryDate = new Date(decodedToken.exp * 1000);
+
+        const blacklistedToken = this.blacklistRepository.create({
+            token,
+            expiry: expiryDate,
+        });
+        await this.blacklistRepository.save(blacklistedToken);
+
         return { message: 'Logged out successfully' };
+    }
+
+
+    async isTokenBlacklisted(token: string): Promise<boolean> {
+        const blacklistedToken = await this.blacklistRepository.findOne({
+            where: { token },
+        });
+        return !!blacklistedToken;
     }
 }
