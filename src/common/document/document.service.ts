@@ -9,10 +9,11 @@ import { User } from '../entity/User.entity';
 @Injectable()
 export class DocumentService {
     constructor(
-        @InjectRepository(Document)
-        private documentRepository: Repository<Document>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
+        @InjectRepository(Document)
+        private documentRepository: Repository<Document>,
+        
     ) { }
 
     async create(createDocumentDto: CreateDocumentDto, userId: number): Promise<Document> {

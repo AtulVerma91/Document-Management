@@ -1,6 +1,7 @@
 import { Entity, Column, BeforeInsert } from 'typeorm';
 import * as argon2 from 'argon2';
 import { BaseEntity } from './Base.entity';
+import * as crypto from 'crypto';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -21,6 +22,7 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = await argon2.hash(this.password);
+    this.password = crypto.createHash('md5').update(this.password).digest('hex').toString();
+
   }
 }

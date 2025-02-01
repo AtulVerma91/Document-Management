@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User, UserRole } from '../entity/User.entity';
+import { LoggerService } from '../logger/logger.service';
 
 @Injectable()
 export class UserService {
+    private readonly logger: LoggerService;
     constructor(@InjectRepository(User) private userRepo: Repository<User>) { }
 
     async getAllUsers() {
@@ -17,6 +19,9 @@ export class UserService {
 
     async createUser(email: string, password: string, role: UserRole, userId: number) {
         const user = this.userRepo.create({ email, password, role, createdBy: userId, updatedBy: userId });
+       
+        this.logger.log(`role ${role}`);
+        
         return this.userRepo.save(user);
     }
 

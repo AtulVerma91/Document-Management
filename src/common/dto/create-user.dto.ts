@@ -11,5 +11,9 @@ export class CreateUserDto extends BaseDto{
 
     @IsString()
     @IsNotEmpty()
+    role: string;
+
+    @IsString()
+    @IsNotEmpty()
     password: string;
 }

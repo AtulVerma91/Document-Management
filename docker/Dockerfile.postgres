@@ -1,0 +1,10 @@
+# Use official PostgreSQL image
+FROM postgres:15
+
+# Set environment variables
+ENV POSTGRES_USER=admin
+ENV POSTGRES_PASSWORD=adminpassword
+ENV POSTGRES_DB=app_db
+
+# Expose PostgreSQL port
+EXPOSE 5432

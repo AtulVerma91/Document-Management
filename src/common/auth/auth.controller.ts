@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, Logger } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -6,10 +6,12 @@ import { LoginDto } from '../dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
+    private readonly logger = new Logger(AuthController.name);
     constructor(private readonly authService: AuthService) { }
 
     @Post('login')
     async login(@Body() loginDto: LoginDto, @Res() res: Response): Promise<void> {
+    
         const { access_token } = await this.authService.login(loginDto);
         res.cookie('access_token', access_token, {
             httpOnly: true,
@@ -21,7 +23,7 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() createUserDto: CreateUserDto): Promise<{ access_token: string }> {
+    async register(@Body() createUserDto: CreateUserDto): Promise<{ code: number; message: string; }> {
         return this.authService.register(createUserDto);
     }
 
