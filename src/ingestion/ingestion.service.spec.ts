@@ -15,19 +15,29 @@ describe('IngestionService', () => {
 
   it('should trigger an ingestion process', () => {
     const result = service.triggerIngestion();
-    expect(result).toHaveProperty('message', 'Ingestion process started successfully');
+    expect(result).toHaveProperty(
+      'message',
+      'Ingestion process started successfully',
+    );
     expect(result).toHaveProperty('processId');
   });
 
   it('should return ingestion status', () => {
     const process = service.triggerIngestion();
     const status = service.getIngestionStatus(process.processId);
-    expect(status).toEqual({ processId: process.processId, status: 'In Progress' });
+    expect(status).toEqual({
+      processId: process.processId,
+      status: 'In Progress',
+    });
   });
 
   it('should stop an ingestion process', () => {
     const process = service.triggerIngestion();
     const stopResult = service.stopIngestion(process.processId);
-    expect(stopResult).toEqual({ message: 'Ingestion process stopped successfully', processId: process.processId, status: 'Stopped' });
+    expect(stopResult).toEqual({
+      message: 'Ingestion process stopped successfully',
+      processId: process.processId,
+      status: 'Stopped',
+    });
   });
 });

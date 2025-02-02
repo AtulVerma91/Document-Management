@@ -16,7 +16,7 @@ import { Role } from '../common/guard/roles.enum';
 @Controller('ingestion')
 @UseGuards(RolesGuard)
 export class IngestionController {
-  constructor(private readonly ingestionService: IngestionService) { }
+  constructor(private readonly ingestionService: IngestionService) {}
 
   @Post('trigger')
   @Roles(Role.Admin)
