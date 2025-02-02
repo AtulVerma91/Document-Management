@@ -1,12 +1,13 @@
 import { Controller, Post, Get, Param, Body, Patch, Delete, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { DocumentService } from './document.service';
-import { RolesGuard } from '../guard/RoleGuard';
-import { Role } from '../guard/roles.enum';
-import { Roles } from '../guard/roles.decorator';
-import { CreateDocumentDto } from '../dto/create-document.dto';
-import { UpdateDocumentDto } from '../dto/update-document.dto';
+
 import { FileInterceptor } from '@nestjs/platform-express'; // For handling file uploads
 import { memoryStorage } from 'multer';
+import { RolesGuard } from '../common/guard/RoleGuard';
+import { Roles } from '../common/guard/roles.decorator';
+import { Role } from '../common/guard/roles.enum';
+import { CreateDocumentDto } from '../common/dto/document/create-document.dto';
+import { UpdateDocumentDto } from '../common/dto/document/update-document.dto';
 
 @Controller('documents')
 export class DocumentController {

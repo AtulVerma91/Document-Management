@@ -1,5 +1,5 @@
 import { IsString, IsEmail, IsOptional } from 'class-validator';
-import { BaseDto } from './base.dto';
+import { BaseDto } from '../base.dto';
 
 export class UpdateUserDto extends BaseDto{
     @IsOptional()

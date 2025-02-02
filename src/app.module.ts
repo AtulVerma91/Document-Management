@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from './common/config/config.module';
 import { ORM_CONFIGS } from './common/config/orm-config';
-import { UserModule } from './common/user/user.module';
 import { LoggerModule } from './common/logger/logger.module';
 
 import { APP_GUARD } from '@nestjs/core';
@@ -10,11 +9,12 @@ import { RolesGuard } from './common/guard/RoleGuard';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigService } from './common/config/config.service';
 import * as crypto from 'crypto';
-import { AuthModule } from './common/auth/auth.module';
-import { DocumentModule } from './common/document/document.module';
-import { DocumentService } from './common/document/document.service';
-import { User } from './common/entity/User.entity';
-import { Document } from './common/entity/Document.entity';
+import { Document } from './common/entity/document/Document.entity';
+import { DocumentModule } from './document/document.module';
+import { DocumentService } from './document/document.service';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './common/entity/user/User.entity';
 
 console.log(crypto.randomUUID());
 

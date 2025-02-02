@@ -1,9 +1,11 @@
 import { Controller, Post, Body, Req, Res, Logger,Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { LoginDto } from '../dto/login.dto';
-import { Public } from '../guard/public.decorator';
+import { Public } from '../common/guard/public.decorator';
+import { CreateUserDto } from '../common/dto/user/create-user.dto';
+import { LoginDto } from '../common/dto/login/login.dto';
+
+
 
 @Controller('auth')
 export class AuthController {

@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Logger, Request, SetMetadata } from '@nestjs/common';
 import { UserService } from './user.service';
-import { RolesGuard } from '../guard/RoleGuard';
-import { UserRole } from '../entity/User.entity';
-import { Role } from '../guard/roles.enum';
-import { Roles } from '../guard/roles.decorator';
+import { RolesGuard } from '../common/guard/RoleGuard';
+import { Roles } from '../common/guard/roles.decorator';
+import { Role } from '../common/guard/roles.enum';
+import { UserRole } from '../common/entity/user/User.entity';
+
 @Controller('users')
 
 export class UserController {

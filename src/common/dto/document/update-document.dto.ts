@@ -1,5 +1,6 @@
 import { IsOptional, IsString, IsInt } from 'class-validator';
-import { BaseDto } from './base.dto';
+import { BaseDto } from '../base.dto';
+
 
 export class UpdateDocumentDto extends BaseDto {
     @IsOptional()

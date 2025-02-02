@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateDocumentDto } from '../dto/create-document.dto';
-import { UpdateDocumentDto } from '../dto/update-document.dto';
-import { Document } from '../entity/Document.entity';
-import { User } from '../entity/User.entity';
 import * as path from 'path';
 import { promises as fs } from 'fs';
+import { Document } from '../common/entity/document/Document.entity';
+import { User } from '../common/entity/user/User.entity';
+import { CreateDocumentDto } from '../common/dto/document/create-document.dto';
+import { UpdateDocumentDto } from '../common/dto/document/update-document.dto';
 @Injectable()
 export class DocumentService {
     private readonly uploadDir = path.resolve(__dirname, '..', '..', 'uploads');
