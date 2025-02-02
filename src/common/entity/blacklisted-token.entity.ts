@@ -1,21 +1,21 @@
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity('blacklisted_tokens')
 export class BlacklistedToken {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    token: string;
+  @Column()
+  token: string;
 
-    @CreateDateColumn()
-    blacklistedAt: Date;
+  @CreateDateColumn()
+  blacklistedAt: Date;
 
-    @Column()
-    expiry: Date;
+  @Column()
+  expiry: Date;
 }

@@ -8,8 +8,8 @@ import { LoggerService } from '../common/logger/logger.service';
 import { User } from '../common/entity/user/User.entity';
 
 @Module({
-    imports: [LoggerModule ,TypeOrmModule.forFeature([User])],
-    providers: [UserService,LoggerService,JwtService],
-    controllers: [UserController],
+  imports: [LoggerModule, TypeOrmModule.forFeature([User])],
+  providers: [UserService, LoggerService, JwtService],
+  controllers: [UserController],
 })
-export class UserModule { }
+export class UserModule {}

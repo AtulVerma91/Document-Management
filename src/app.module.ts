@@ -15,9 +15,9 @@ import { DocumentService } from './document/document.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './common/entity/user/User.entity';
+import { IngestionModule } from './ingestion/ingestion.module';
 
 console.log(crypto.randomUUID());
-
 
 @Module({
   imports: [
@@ -27,7 +27,8 @@ console.log(crypto.randomUUID());
     TypeOrmModule.forFeature([Document]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ORM_CONFIGS(configService),
+      useFactory: async (configService: ConfigService) =>
+        ORM_CONFIGS(configService),
       inject: [ConfigService],
     }),
     JwtModule.registerAsync({
@@ -40,7 +41,8 @@ console.log(crypto.randomUUID());
     }),
     AuthModule,
     UserModule,
-    DocumentModule
+    DocumentModule,
+    IngestionModule,
   ],
   providers: [
     JwtService,
@@ -48,8 +50,7 @@ console.log(crypto.randomUUID());
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
-    }, 
-    
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {}

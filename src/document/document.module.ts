@@ -12,8 +12,14 @@ import { User } from '../common/entity/user/User.entity';
 import { Document } from 'src/common/entity/document/Document.entity';
 
 @Module({
-    imports: [UserModule,ConfigModule, LoggerModule, TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([Document])],
-    providers: [UserService,DocumentService,LoggerService,JwtService],
-    controllers: [DocumentController],
+  imports: [
+    UserModule,
+    ConfigModule,
+    LoggerModule,
+    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([Document]),
+  ],
+  providers: [UserService, DocumentService, LoggerService, JwtService],
+  controllers: [DocumentController],
 })
-export class DocumentModule { }
+export class DocumentModule {}
