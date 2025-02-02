@@ -1,4 +1,4 @@
-import { IsString, IsInt, IsOptional } from 'class-validator';
+import { IsOptional, IsString, IsInt } from 'class-validator';
 import { BaseDto } from './base.dto';
 
 export class UpdateDocumentDto extends BaseDto {
@@ -8,9 +8,13 @@ export class UpdateDocumentDto extends BaseDto {
 
     @IsOptional()
     @IsString()
-    fileName?: string;
+    fileName?: string;  
+
+    @IsOptional()
+    @IsString()
+    filePath?: string; 
 
     @IsOptional()
     @IsInt()
-    fileSize?: number;
+    fileSize?: number;  
 }

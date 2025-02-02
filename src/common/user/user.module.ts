@@ -5,10 +5,11 @@ import { UserController } from './user.controller';
 import { User } from '../entity/User.entity';
 import { LoggerModule } from '../logger/logger.module';
 import { LoggerService } from '../logger/logger.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
     imports: [LoggerModule ,TypeOrmModule.forFeature([User])],
-    providers: [UserService,LoggerService],
+    providers: [UserService,LoggerService,JwtService],
     controllers: [UserController],
 })
 export class UserModule { }

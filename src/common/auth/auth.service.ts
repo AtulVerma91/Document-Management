@@ -56,7 +56,7 @@ export class AuthService {
         this.logger.log(`loginDto.password (plain): ${loginDto.password}`);
         this.logger.log(`user.password (hashed from DB): ${user.password}`);
 
-       
+
 
         const passwordMatch = (hashedPassword === user.password);
         this.logger.log(`Password match result: ${passwordMatch}`);
@@ -72,7 +72,7 @@ export class AuthService {
 
 
     async generateToken(user: User): Promise<{ access_token: string }> {
-        const payload = { email: user.email, role: user.role }; 
+        const payload = { email: user.email, role: user.role };
         this.logger.log(`Token generated for ${user.email}`);
         return { access_token: this.jwtService.sign(payload) };
     }
