@@ -41,7 +41,6 @@ export class AuthService {
     return {
       code: 200,
       message: 'user created successfully',
-      access_token: await this.generateToken(user),
     };
   }
 

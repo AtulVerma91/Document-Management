@@ -30,9 +30,6 @@ export class UserService {
       createdBy: userId,
       updatedBy: userId,
     });
-
-    this.logger.log(`role ${role}`);
-
     return this.userRepo.save(user);
   }
 
