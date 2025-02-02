@@ -28,7 +28,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: adminpassword
       POSTGRES_DB: app_db
-      JWT_SECRET: supersecretkey
+      JWT_SECRET: secret
     ports:
       - "3000:3000"
 

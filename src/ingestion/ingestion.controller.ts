@@ -6,16 +6,20 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { IngestionService } from './ingestion.service';
-import { CreateIngestionDto } from './dto/create-ingestion.dto';
-import { UpdateIngestionDto } from './dto/update-ingestion.dto';
+import { Roles } from '../common/guard/roles.decorator';
+import { RolesGuard } from '../common/guard/RoleGuard';
+import { Role } from '../common/guard/roles.enum';
 
 @Controller('ingestion')
+@UseGuards(RolesGuard)
 export class IngestionController {
-  constructor(private readonly ingestionService: IngestionService) {}
+  constructor(private readonly ingestionService: IngestionService) { }
 
   @Post('trigger')
+  @Roles(Role.Admin)
   triggerIngestion() {
     return this.ingestionService.triggerIngestion();
   }
@@ -23,5 +27,22 @@ export class IngestionController {
   @Get('status/:id')
   getIngestionStatus(@Param('id') id: string) {
     return this.ingestionService.getIngestionStatus(id);
+  }
+
+  @Post('stop/:id')
+  @Roles(Role.Admin)
+  stopIngestion(@Param('id') id: string) {
+    return this.ingestionService.stopIngestion(id);
+  }
+
+  @Get('all')
+  @Roles(Role.Admin)
+  getAllIngestions() {
+    return this.ingestionService.getAllIngestions();
+  }
+
+  @Get(':id')
+  getIngestion(@Param('id') id: string) {
+    return this.ingestionService.getIngestion(id);
   }
 }
