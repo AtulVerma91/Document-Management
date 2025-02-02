@@ -11,6 +11,10 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigService } from './common/config/config.service';
 import * as crypto from 'crypto';
 import { AuthModule } from './common/auth/auth.module';
+import { DocumentModule } from './common/document/document.module';
+import { DocumentService } from './common/document/document.service';
+import { User } from './common/entity/User.entity';
+import { Document } from './common/entity/Document.entity';
 
 console.log(crypto.randomUUID());
 
@@ -19,6 +23,8 @@ console.log(crypto.randomUUID());
   imports: [
     ConfigModule,
     LoggerModule,
+    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([Document]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ORM_CONFIGS(configService),
@@ -34,13 +40,16 @@ console.log(crypto.randomUUID());
     }),
     AuthModule,
     UserModule,
+    DocumentModule
   ],
   providers: [
+    JwtService,
+    DocumentService,
     {
       provide: APP_GUARD,
       useClass: RolesGuard,
     }, 
-    JwtService,
+    
   ],
 })
 export class AppModule { }

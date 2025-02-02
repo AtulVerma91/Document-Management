@@ -1,14 +1,16 @@
-import { Controller, Post, Body, Req, Res, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, Logger,Headers } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Response, Request } from 'express';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { LoginDto } from '../dto/login.dto';
+import { Public } from '../guard/public.decorator';
 
 @Controller('auth')
 export class AuthController {
     private readonly logger = new Logger(AuthController.name);
     constructor(private readonly authService: AuthService) { }
-
+    
+    @Public()
     @Post('login')
     async login(@Body() loginDto: LoginDto, @Res() res: Response): Promise<void> {
     
@@ -21,16 +23,20 @@ export class AuthController {
 
         res.status(200).send({ message: 'Login successful' });
     }
-
+    @Public()
     @Post('register')
     async register(@Body() createUserDto: CreateUserDto): Promise<{ code: number; message: string; }> {
         return this.authService.register(createUserDto);
     }
 
-    // Logout method
+
     @Post('logout')
-    async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
-        res.clearCookie('access_token');
-        res.status(200).send({ message: 'Logged out successfully' });
+    async logout(@Headers('Authorization') authHeader: string, @Res() res: Response) {
+        const token = authHeader?.split(' ')[1];
+        if (!token) {
+            throw new Error('Token not provided');
+        }
+        
+        return this.authService.logout(token);
     }
 }

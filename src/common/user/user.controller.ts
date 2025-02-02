@@ -2,9 +2,10 @@ import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Logger, R
 import { UserService } from './user.service';
 import { RolesGuard } from '../guard/RoleGuard';
 import { UserRole } from '../entity/User.entity';
-
-
+import { Role } from '../guard/roles.enum';
+import { Roles } from '../guard/roles.decorator';
 @Controller('users')
+
 export class UserController {
     private readonly logger = new Logger(UserController.name);
 
@@ -12,12 +13,13 @@ export class UserController {
 
     @Get()
     @UseGuards(RolesGuard)
-    @SetMetadata('roles', ['admin'])
+    @Roles(Role.Admin)
     async getAllUsers(@Request() req) {
         this.logger.log('Fetching all users');
         return this.userService.getAllUsers();
     }
-
+    @UseGuards(RolesGuard)
+    @Roles(Role.Admin)
     @Get(':id')
     async getUser(@Param('id') id: number) {
         return this.userService.getUserById(id);
@@ -30,16 +32,14 @@ export class UserController {
     }
 
     @Patch(':id')
-    @UseGuards(RolesGuard)
-    @SetMetadata('roles', ['admin'])
+    @Roles(Role.Admin)
     async updateUser(@Param('id') id: number, @Body('role') role: UserRole, @Request() req) {
         const userId = req.user?.id; 
         return this.userService.updateUser(id, role, userId);
     }
 
     @Delete(':id')
-    @UseGuards(RolesGuard)
-    @SetMetadata('roles', ['admin'])
+    @Roles(Role.Admin)
     async deleteUser(@Param('id') id: number) {
         return this.userService.deleteUser(id);
     }

@@ -11,5 +11,8 @@ export class Document extends BaseEntity {
     fileName?: string;
 
     @Column()
+    filePath?: string;
+
+    @Column()
     fileSize?: number;
 }
