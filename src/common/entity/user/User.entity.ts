@@ -21,7 +21,10 @@ export class User extends BaseEntity {
 
   @BeforeInsert()
   async hashPassword() {
-    this.password = crypto.createHash('md5').update(this.password).digest('hex').toString();
-
+    this.password = crypto
+      .createHash('md5')
+      .update(this.password)
+      .digest('hex')
+      .toString();
   }
 }

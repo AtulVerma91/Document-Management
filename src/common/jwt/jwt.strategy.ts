@@ -4,26 +4,25 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '../config/config.service';
 import { AuthService } from '../../auth/auth.service';
 
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor(
-        private readonly configService: ConfigService,
-        private readonly authService: AuthService,
-    ) {
-        super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: configService.get('jwtSecret'),
-            ignoreExpiration: false,
-        });
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
+  ) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: configService.get('jwtSecret'),
+      ignoreExpiration: false,
+    });
+  }
+
+  async validate(payload: any) {
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(this);
+    if (await this.authService.isTokenBlacklisted(token)) {
+      throw new UnauthorizedException('Token has been revoked');
     }
 
-    async validate(payload: any) {
-        const token = ExtractJwt.fromAuthHeaderAsBearerToken()(this);
-        if (await this.authService.isTokenBlacklisted(token)) {
-            throw new UnauthorizedException('Token has been revoked');
-        }
-
-        return { username: payload.username, roles: payload.roles };
-    }
+    return { username: payload.username, roles: payload.roles };
+  }
 }

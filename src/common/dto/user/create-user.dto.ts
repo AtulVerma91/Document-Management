@@ -1,19 +1,19 @@
 import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 import { BaseDto } from '../base.dto';
 
-export class CreateUserDto extends BaseDto{
-    @IsString()
-    @IsNotEmpty()
-    username: string;
+export class CreateUserDto extends BaseDto {
+  @IsString()
+  @IsNotEmpty()
+  username: string;
 
-    @IsEmail()
-    email: string;
+  @IsEmail()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    role: string;
+  @IsString()
+  @IsNotEmpty()
+  role: string;
 
-    @IsString()
-    @IsNotEmpty()
-    password: string;
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
