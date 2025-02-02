@@ -15,20 +15,43 @@ export class IngestionService {
     return { processId: id, status };
   }
 
-  stopIngestion(id: string): { message: string; processId: string; status: string } {
+  stopIngestion(id: string): {
+    message: string;
+    processId: string;
+    status: string;
+  } {
     if (this.ingestionProcesses[id]) {
       this.ingestionProcesses[id] = 'Stopped';
-      return { message: 'Ingestion process stopped successfully', processId: id, status: 'Stopped' };
+      return {
+        message: 'Ingestion process stopped successfully',
+        processId: id,
+        status: 'Stopped',
+      };
     }
-    return { message: 'Ingestion process not found', processId: id, status: 'Not Found' };
+    return {
+      message: 'Ingestion process not found',
+      processId: id,
+      status: 'Not Found',
+    };
   }
 
   getAllIngestions(): { message: string; processes: Record<string, string> } {
-    return { message: 'List of all ingestion processes', processes: this.ingestionProcesses };
+    return {
+      message: 'List of all ingestion processes',
+      processes: this.ingestionProcesses,
+    };
   }
 
-  getIngestion(id: string): { message: string; processId: string; status: string } {
+  getIngestion(id: string): {
+    message: string;
+    processId: string;
+    status: string;
+  } {
     const status = this.ingestionProcesses[id] || 'Not Found';
-    return { message: 'Ingestion process details fetched successfully', processId: id, status };
+    return {
+      message: 'Ingestion process details fetched successfully',
+      processId: id,
+      status,
+    };
   }
 }
