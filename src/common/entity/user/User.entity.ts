@@ -1,7 +1,6 @@
 import { Entity, Column, BeforeInsert } from 'typeorm';
-import * as argon2 from 'argon2';
-import { BaseEntity } from './Base.entity';
 import * as crypto from 'crypto';
+import { BaseEntity } from '../Base.entity';
 
 export enum UserRole {
   ADMIN = 'admin',

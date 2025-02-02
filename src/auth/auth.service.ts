@@ -1,12 +1,13 @@
 import { Injectable, UnauthorizedException, Logger, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User, UserRole } from '../entity/User.entity';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoginDto } from '../dto/login.dto';
-import { BlacklistedToken } from '../entity/blacklisted-token.entity';
 import * as crypto from 'crypto';
+import { BlacklistedToken } from '../common/entity/blacklisted-token.entity';
+import { CreateUserDto } from '../common/dto/user/create-user.dto';
+import { User, UserRole } from '../common/entity/user/User.entity';
+import { LoginDto } from '../common/dto/login/login.dto';
+
 
 
 @Injectable()

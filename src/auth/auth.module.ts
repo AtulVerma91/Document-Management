@@ -5,12 +5,13 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../entity/User.entity';
-import { ConfigModule } from '../config/config.module';
-import { ConfigService } from '../config/config.service';
-import { LoggerModule } from '../logger/logger.module';
-import { JwtStrategy } from '../jwt/jwt.strategy';
-import { BlacklistedToken } from '../entity/blacklisted-token.entity';
+import { ConfigModule } from '../common/config/config.module';
+import { BlacklistedToken } from '../common/entity/blacklisted-token.entity';
+import { User } from '../common/entity/user/User.entity';
+import { ConfigService } from '../common/config/config.service';
+import { LoggerModule } from '../common/logger/logger.module';
+import { JwtStrategy } from '../common/jwt/jwt.strategy';
+
 
 
 @Module({

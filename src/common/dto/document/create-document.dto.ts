@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString, IsInt } from 'class-validator';
-import { BaseDto } from './base.dto';
+import { BaseDto } from '../base.dto';
+
 
 export class CreateDocumentDto extends BaseDto {
     @IsNotEmpty()

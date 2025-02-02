@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { User } from '../entity/User.entity';
-import { LoggerModule } from '../logger/logger.module';
-import { LoggerService } from '../logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
+import { LoggerModule } from '../common/logger/logger.module';
+import { LoggerService } from '../common/logger/logger.service';
+import { User } from '../common/entity/user/User.entity';
 
 @Module({
     imports: [LoggerModule ,TypeOrmModule.forFeature([User])],
