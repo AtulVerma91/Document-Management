@@ -10,35 +10,27 @@ describe('IngestionController', () => {
   let service: IngestionService;
 
   const mockIngestionService = {
-    triggerIngestion: jest
-      .fn()
-      .mockReturnValue({
-        message: 'Ingestion process started successfully',
-        processId: '123',
-      }),
+    triggerIngestion: jest.fn().mockReturnValue({
+      message: 'Ingestion process started successfully',
+      processId: '123',
+    }),
     getIngestionStatus: jest
       .fn()
       .mockReturnValue({ processId: '123', status: 'In Progress' }),
-    stopIngestion: jest
-      .fn()
-      .mockReturnValue({
-        message: 'Ingestion process stopped successfully',
-        processId: '123',
-        status: 'Stopped',
-      }),
-    getAllIngestions: jest
-      .fn()
-      .mockReturnValue({
-        message: 'List of all ingestion processes',
-        processes: {},
-      }),
-    getIngestion: jest
-      .fn()
-      .mockReturnValue({
-        message: 'Ingestion process details fetched successfully',
-        processId: '123',
-        status: 'In Progress',
-      }),
+    stopIngestion: jest.fn().mockReturnValue({
+      message: 'Ingestion process stopped successfully',
+      processId: '123',
+      status: 'Stopped',
+    }),
+    getAllIngestions: jest.fn().mockReturnValue({
+      message: 'List of all ingestion processes',
+      processes: {},
+    }),
+    getIngestion: jest.fn().mockReturnValue({
+      message: 'Ingestion process details fetched successfully',
+      processId: '123',
+      status: 'In Progress',
+    }),
   };
 
   const mockJwtService = {

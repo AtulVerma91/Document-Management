@@ -1,20 +1,23 @@
 # Use an official Node.js runtime as a parent image
-FROM node:18
+FROM node:20
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy only package.json and package-lock.json first (improves caching)
+# Copy package.json and package-lock.json first
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --omit=dev
+RUN npm install --legacy-peer-deps --omit=dev
 
-# Copy the rest of the application, excluding unnecessary files
+# Copy the rest of the application
 COPY . .
 
-# Exclude node_modules and dist during build
-RUN rm -rf node_modules dist
+# Reinstall dependencies to ensure all are present
+RUN npm install --legacy-peer-deps
+
+# Install NestJS CLI globally
+RUN npm install -g @nestjs/cli
 
 # Build the NestJS app
 RUN npm run build

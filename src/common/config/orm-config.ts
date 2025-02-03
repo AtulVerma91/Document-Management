@@ -15,7 +15,7 @@ export const ORM_CONFIGS = (
     __dirname + '/../entity/*.entity{.ts,.js}',
   ],
   logging: false,
-  synchronize: true,
+  synchronize: false,
   migrations: ['dist/migrations/*.js'],
   extra: {
     application_name: 'oms_connection',
