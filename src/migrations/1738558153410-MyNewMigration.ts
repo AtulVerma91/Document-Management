@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class MyNewMigration1738558153410 implements MigrationInterface {
-	async up(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`
+  async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
         DO $$ 
         BEGIN
             IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role_enum') THEN
@@ -11,7 +11,7 @@ export class MyNewMigration1738558153410 implements MigrationInterface {
         END $$;
     `);
 
-		await queryRunner.query(`
+    await queryRunner.query(`
         CREATE TABLE IF NOT EXISTS public."user" (
             id serial PRIMARY KEY,
             "createdAt" TIMESTAMP DEFAULT now() NOT NULL,
@@ -24,7 +24,7 @@ export class MyNewMigration1738558153410 implements MigrationInterface {
         );
     `);
 
-		await queryRunner.query(`
+    await queryRunner.query(`
         CREATE TABLE IF NOT EXISTS public.blacklisted_tokens (
             id serial PRIMARY KEY,
             "token" VARCHAR NOT NULL,
@@ -33,7 +33,7 @@ export class MyNewMigration1738558153410 implements MigrationInterface {
         );
     `);
 
-		await queryRunner.query(`
+    await queryRunner.query(`
         CREATE TABLE IF NOT EXISTS public."document" (
             id serial PRIMARY KEY,
             "createdAt" TIMESTAMP DEFAULT now() NOT NULL,
@@ -46,8 +46,7 @@ export class MyNewMigration1738558153410 implements MigrationInterface {
             "fileSize" INT NOT NULL
         );
     `);
-	}
-
+  }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DROP TABLE "document";`);
