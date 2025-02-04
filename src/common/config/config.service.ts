@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 export const config = () => ({
   logger: {
     logLevel: process.env.OMS_LOG_LEVEL,
@@ -19,6 +20,7 @@ export const config = () => ({
     migrations: ['dist/migrations/*.js'],
   },
   jwtSecret: process.env[`JWT_SECRET`] || 'secret',
+  server_port: process.env.SERVER_PORT || 3000,
 });
 @Injectable()
 export class ConfigService {
