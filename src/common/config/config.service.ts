@@ -8,9 +8,9 @@ export const config = () => ({
   postgres: {
     host: process.env.POSTGRES_HOST || 'localhost',
     port: +process.env.POSTGRES_PORT || 5432,
-    username: process.env[`POSTGRES_USER`]||'admin',
-    password: process.env[`POSTGRES_PASSWORD`] ||'adminpassword',
-    database: process.env[`POSTGRES_DB`]||'app_db',
+    username: process.env[`POSTGRES_USER`] || 'admin',
+    password: process.env[`POSTGRES_PASSWORD`] || 'adminpassword',
+    database: process.env[`POSTGRES_DB`] || 'app_db',
     entities: [
       __dirname + '/../**/*.entity{.ts,.js}',
       __dirname + '/../entity/*.entity{.ts,.js}',

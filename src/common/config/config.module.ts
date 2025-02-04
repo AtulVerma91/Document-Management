@@ -16,7 +16,8 @@ import { DataSource } from 'typeorm';
         const dataSource = new DataSource(options);
         return dataSource.initialize();
       },
-    }),],
+    }),
+  ],
   providers: [ConfigService],
   exports: [ConfigService],
 })

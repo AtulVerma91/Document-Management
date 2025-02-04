@@ -49,10 +49,9 @@ export class AuthService {
       where: { email: loginDto.email },
     });
 
-    
     const hashedPassword = crypto
       .createHash('md5')
-      .update(loginDto.email +loginDto.password)
+      .update(loginDto.email + loginDto.password)
       .digest('hex')
       .toString();
     if (!user) {
