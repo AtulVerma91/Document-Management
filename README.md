@@ -32,6 +32,21 @@ This project is a Proof of Concept (PoC) for a document management system that u
 | POST   | /auth/register    | Public               | Registers a new user.                            |
 | POST   | /auth/logout      | Authenticated Users  | Logs out a user by blacklisting the JWT token.   |
 
+# User API
+
+This API provides user management functionalities, including creating, fetching, updating, and deleting users. Access to some endpoints is restricted based on user roles.
+
+## Endpoints
+
+| Method | Endpoint       | Role Access | Description |
+|--------|--------------|-------------|-------------|
+| GET    | `/users`      | Admin       | Fetch all users |
+| GET    | `/users/:id`  | Admin       | Fetch a specific user by ID |
+| POST   | `/users`      | Public      | Create a new user |
+| PATCH  | `/users/:id`  | Admin       | Update user role |
+| DELETE | `/users/:id`  | Admin       | Delete a user by ID |
+
+
 ### Document Management Module
 
 | Method | Endpoint          | Role Access          | Description                                      |
