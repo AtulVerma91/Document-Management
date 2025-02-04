@@ -28,7 +28,7 @@ export class AuthController {
       maxAge: 3600 * 1000, // 1 hour
     });
 
-    res.status(200).send({ message: 'Login successful' });
+    res.status(200).send({ message: 'Login successful', access_token  });
   }
   @Public()
   @Post('register')
@@ -42,11 +42,16 @@ export class AuthController {
   async logout(
     @Headers('Authorization') authHeader: string,
     @Res() res: Response,
-  ) {
+  )  {
     const token = authHeader?.split(' ')[1];
     if (!token) {
       throw new Error('Token not provided');
     }
-    return this.authService.logout(token);
+   const logout= await this.authService.logout(token);
+    console.log(`logout ${JSON.stringify(logout)}`)
+   return res.cookie('access_token', "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    }).status(200).json(logout);
   }
 }

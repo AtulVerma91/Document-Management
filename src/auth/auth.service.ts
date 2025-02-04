@@ -77,22 +77,26 @@ export class AuthService {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async logout(token: string): Promise<{ message: string }> {
+  async logout(token: string): Promise<{code:number, message: string }> {
     this.logger.log('Logging out...');
     const decodedToken = this.jwtService.decode(token) as any;
     if (!decodedToken) {
       throw new UnauthorizedException('Invalid token');
     }
-
+    this.logger.log('Logging out1...');
     const expiryDate = new Date(decodedToken.exp * 1000);
 
     const blacklistedToken = this.blacklistRepository.create({
       token,
       expiry: expiryDate,
     });
+    this.logger.log('Logging out2...');
     await this.blacklistRepository.save(blacklistedToken);
-
-    return { message: 'Logged out successfully' };
+    this.logger.log('Logging out3...');
+    return {
+      code:200, 
+      message: 'Logged out successfully' 
+    };
   }
 
   async isTokenBlacklisted(token: string): Promise<boolean> {
